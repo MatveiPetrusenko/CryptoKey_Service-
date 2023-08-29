@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = ".";
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string hashed_password = 4;
+}
+
+message Result {
+  bool success = 1;
+  string message = 2;
+}
+
+/*
+message AuthRequest {
+  User user = 1;
+}
+
+message AuthResponse {
+  Result result = 1;
+}
+*/
+
+message RegistrationRequest {
+  User user = 1;
+}
+
+message RegistrationResponse {
+  Result result = 1;
+}
+
+service AuthService {
+  rpc RegisterUser (User) returns (Result);
+ // rpc AuthenticateUser (AuthRequest) returns (AuthResponse);
+}
