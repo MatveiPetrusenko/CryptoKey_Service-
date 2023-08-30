@@ -11,7 +11,7 @@ import (
 
 const (
 	// Port for gRPC server to listen to
-	PORT = ":50051"
+	PORT = ":5051"
 )
 
 type passwordStorageSystem struct {
@@ -19,7 +19,7 @@ type passwordStorageSystem struct {
 }
 
 func (s *passwordStorageSystem) RegisterUser(ctx context.Context, in *pb.User) (*pb.Result, error) {
-	log.Printf("Received: %s %s %s %s", in.GetId(), in.GetUsername(), in.GetEmail(), in.GetHashedPassword())
+	log.Printf("Received: %s %s %s", in.GetUsername(), in.GetEmail(), in.GetHashedPassword())
 
 	r := &pb.Result{
 		Success: true,
