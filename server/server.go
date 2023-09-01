@@ -2,16 +2,14 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/joho/godotenv"
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 	pb "main.go/proto"
-)
-
-const (
-	// Port for gRPC server to listen to
-	PORT = ":5051"
 )
 
 type passwordStorageSystem struct {
@@ -29,8 +27,25 @@ func (s *passwordStorageSystem) RegisterUser(ctx context.Context, in *pb.User) (
 	return r, nil
 }
 
+// loadDependencies ...
+func loadDependencies() string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Smt wrong .env")
+	}
+
+	serverHost := os.Getenv("SE_HOST")
+	serverPort := os.Getenv("SE_PORT")
+
+	serverAddress := fmt.Sprintf("%s:%s", serverHost, serverPort)
+
+	return serverAddress
+}
+
 func main() {
-	lis, err := net.Listen("tcp", PORT)
+	serverAddress := loadDependencies()
+
+	lis, err := net.Listen("tcp", serverAddress)
 
 	if err != nil {
 		log.Fatalf("failed connection: %v", err)
